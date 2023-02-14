@@ -1,34 +1,41 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+//import { Button, Grid } from '@mui/material'
+import { CssBaseline } from '@mui/material';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+// import CssBaseline from '@mui/material/CssBaseline';
+// import Tabs from '@mui/material/Tabs';
+// import Tab from '@mui/material/Tab';
+// import Box from '@mui/material/Box';
+import React from 'react'
+import { NavBar } from './NavBar';
+//import { TableProducts } from './TableProducts';
+//import { NavBar } from './NavBar';
+import { AppRouter } from './routes/AppRouter';
 
-function App() {
-  const [count, setCount] = useState(0)
+export const App = () => {
 
-  return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
-  )
+    const [value, setValue] = React.useState('one');
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+    const darkTheme = createTheme({
+        palette: {
+            mode: 'dark',
+        },
+    });
+    return (
+        <>
+            <ThemeProvider theme={darkTheme}>
+                <div style={{marginBottom : 40}}>
+                <NavBar />
+                </div>
+                {/* <Grid container alignItems="center" justify="center">
+                <div style={{width: '100%', marginLeft:70,marginRight:70}}>
+                <TableProducts />
+                </div>
+                </Grid> */}
+                <AppRouter />
+            </ThemeProvider>
+        </>
+    )
 }
-
-export default App
