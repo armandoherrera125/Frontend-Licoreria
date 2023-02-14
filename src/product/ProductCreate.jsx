@@ -33,6 +33,7 @@ export const ProductCreate = () => {
     }
     const formAction = async (e) => {
         //e.preventDefault();
+        
         const creatingProduct = await fetch('http://localhost:8000/api/products', {
             method: 'POST',
             body: JSON.stringify({
