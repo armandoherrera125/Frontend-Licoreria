@@ -11,10 +11,13 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ProductCreate } from '../product/ProductCreate';
 import { Button, Dialog, DialogActions, DialogTitle, TextField, Typography } from '@mui/material';
+import Divider from '@mui/material/Divider';
+
 import { addProduct } from '../slices/dispatcherRequest';
 import Swal from 'sweetalert2';
 import { setID } from '../slices/IDsetter';
-
+import PrintIcon from '@mui/icons-material/Print';
+import { TableRevenue } from './TableRevenue';
 const TAX_RATE = 0.07;
 
 function ccyFormat(num) {
@@ -104,6 +107,18 @@ export const TableProducts = () => {
       [target.name]: target.value
     });
   }
+  const [salidas, setsalidas] = useState({
+    totalSalidas: 0,
+    caja: 0
+  });
+  const { totalSalidas, caja } = salidas;
+
+  const handleInputChangeSalidas = ({ target }) => {
+    setsalidas({
+      ...salidas,
+      [target.name]: target.value
+    });
+  }
 
   const [open, setOpen] = useState(false);
 
@@ -147,10 +162,91 @@ export const TableProducts = () => {
     )
   };
 
+  const imprimir = () => {
+    var data=document.getElementById('imprimir').innerHTML;
+    var nombre_fecha=document.getElementById('nombre_fecha').innerHTML;
+    var tableRevenue=document.getElementById('tableentradas').innerHTML;
+
+    var ventana = window.open('', 'PRINT', 'height=400,width=600');
+    ventana.document.write('<html><head><title style="text-align:center;align-content:center;">Inventario</title>');
+    ventana.document.write('</head><body >');
+    ventana.document.write('<div style="text-align: center;align-content: center;">');
+    //ventana.document.write('<img style="width: 155px;max-width: 155px;" src="/imagenmrcharro.jpeg" alt="Logotipo"/>'); 
+
+    ventana.document.write('<img style="width: 155px;max-width: 155px;" src="https://yt3.ggpht.com/-3BKTe8YFlbA/AAAAAAAAAAI/AAAAAAAAAAA/ad0jqQ4IkGE/s900-c-k-no-mo-rj-c0xffffff/photo.jpg" alt="Logotipo"/>'); 
+    ventana.document.write(nombre_fecha);
+    ventana.document.write(data);
+    ventana.document.write('<hr />');
+    ventana.document.write('<table style="width: 65%;">');
+    ventana.document.write('<tbody>');
+    ventana.document.write('<tr>');
+    ventana.document.write(`<td style="width: 406.453px;"><b>Movimientos</b></td>`);
+    ventana.document.write('<td style="width: 200.547px;"><b>Suma</b></td>');
+    ventana.document.write('</tr>');
+    ventana.document.write('<tr>');
+    ventana.document.write('<td style="width: 406.453px;">Total salidas:</td>');
+    ventana.document.write(`<td style="width: 200.547px;">${totalSalidas} +</td>`);
+    ventana.document.write('</tr>');
+    ventana.document.write('<tr>');
+    ventana.document.write('<td style="width: 406.453px;">Dinero en caja:</td>');
+    ventana.document.write(`<td style="width: 200.547px;">${caja} +</td>`);
+    ventana.document.write('</tr>');
+    ventana.document.write('<tr>');
+    ventana.document.write('<td style="width: 406.453px;">Total existencia en mercaderia:</td>');
+    ventana.document.write(`<td style="width: 200.547px;">${finalValue} =</td>`);
+    ventana.document.write('</tr>');
+    ventana.document.write('<tr>');
+    ventana.document.write('<td style="width: 406.453px;">Total salidas y existencia:</td>');
+    ventana.document.write(`<td style="width: 200.547px;">${totalSumaSalidas}</td>`);
+    ventana.document.write('</tr>');
+    ventana.document.write('<tr>');
+    ventana.document.write('<td style="width: 406.453px;">Saldo:</td>');
+    ventana.document.write(`<td style="width: 200.547px;">${saldo}</td>`);
+    ventana.document.write('</tr>');
+    ventana.document.write('</tbody>');
+    ventana.document.write('</table>');
+
+    //ventana.document.write(tableRevenue);
+    ventana.document.write('<hr />');
+    ventana.document.write('<p style="text-align: center;align-content: center;">¡GRACIAS POR UTILIZAR EL SISTEMA!</p>');
+    ventana.document.write('<p style="text-align: center;align-content: center;">¡Bendiciones!</p>');
+
+    ventana.document.write('</div>');
+    ventana.document.write('</body></html>');
+    ventana.document.close();
+    ventana.focus();
+    ventana.onload = function() {
+      ventana.print();
+      ventana.close();
+    };
+    Swal.fire(
+        'Buen trabajo!',
+        'Se imprimira el inventario!',
+        'success'
+    )
+    setsalidas({
+      totalSalidas: 0,
+      caja: 0
+    })
+    return true;
 
 
 
 
+
+
+
+
+
+
+  }
+
+
+let props = {
+  totalSalidas,
+  caja,
+  finalValue
+};
 
 
 
@@ -167,14 +263,17 @@ export const TableProducts = () => {
     });
 
   }
-  console.log(inputTask);
-
+  //console.log(inputTask);
+  let mesActual = new Intl.DateTimeFormat('es-ES', { month: 'long'}).format(new Date());
+  const totalSumaSalidas = Number(totalSalidas) + Number(caja) + Number(finalValue);
+  const saldo = Number(caja) + Number(finalValue);
 
 
   return (
-    <div id='imprimir'>
-      <Box sx={{
+    <>
+      {/* <Box sx={{
         display: 'flex',
+        flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
         textAlign: 'center',
@@ -182,35 +281,23 @@ export const TableProducts = () => {
         flexWrap: 'wrap',
         '& > :not(style)': {
           m: 1,
-          maxWidth: 900,
-          maxHeight: 100,
+          width: 400,
+          maxHeight: 300,
         },
-      }}>
-        <Typography variant="h2" gutterBottom>
-      {`Inventario de Despensa Jades 1`}
-        </Typography>
+      }}
+      >
+        <Paper elevation={3}>
+          <Typography variant="h4" gutterBottom>
+            {`Formulario Activos de la empresa`}
+          </Typography>
+          <TextField sx={{ marginBottom: 5 }} name='totalSalidas' type="number" value={totalSalidas} onChange={handleInputChangeSalidas} id="outlined-basic" label="Total salidas" variant="outlined" />
+          <TextField name='caja' sx={{ marginBottom: 3 }} type="number" value={caja} onChange={handleInputChangeSalidas} id="outlined-basic" label="Caja" variant="outlined" />
+          <Button onClick={imprimir} disabled={!caja || !totalSalidas} variant="contained"><PrintIcon />Imprimir Ticket</Button>
+        </Paper>
       </Box>
-      <Box sx={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        textAlign: 'center',
-        align: 'center',
-        flexWrap: 'wrap',
-        '& > :not(style)': {
-          m: 1,
-          maxWidth: 900,
-          maxHeight: 100,
-        },
-      }}>
-        <Typography variant="h2" gutterBottom>
-      {`${new Date().getDate()}/${new Date().getMonth()+1}/${new Date().getFullYear()}`}
-        </Typography>
-      </Box>
-
-
-      <Box
-        sx={{
+      <hr /> */}
+      <div id='nombre_fecha'>
+        <Box sx={{
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -222,76 +309,142 @@ export const TableProducts = () => {
             maxWidth: 900,
             maxHeight: 100,
           },
-        }}
-      >
-        <Paper elevation={3}>
-          <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 800 }} aria-label="spanning table">
-              <TableHead>
-                <TableRow>
-                  <TableCell align="center" colSpan={5}>
-                    Detalles de los productos
-                  </TableCell>
-                  <TableCell align="right">Total</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>Bodega</TableCell>
-                  <TableCell align="right">Estante</TableCell>
-                  <TableCell align="right">Total productos</TableCell>
-                  <TableCell align="center">Descripcion</TableCell>
-                  <TableCell align="right">Precio unitario</TableCell>
-                  <TableCell align="right">Suma</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {listOfProducts.map((row) => (
-                  <TableRow onClick={() => editProduct(row)} key={row.id} hover>
-                    <TableCell>{row.bodega}</TableCell>
-                    <TableCell align="right">{row.estante}</TableCell>
-                    <TableCell align="right">{row.total}</TableCell>
-                    <TableCell align="right">{row.name}</TableCell>
-                    <TableCell align="right">{row.price}</TableCell>
-                    <TableCell align="right">$ {ccyFormat(row.price * row.total)}</TableCell>
+        }}>
+          <Typography variant="h2" gutterBottom>
+            {`Inventario de Despensa Jades 1`}
+          </Typography>
+        </Box>
+        <Box sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          textAlign: 'center',
+          align: 'center',
+          flexWrap: 'wrap',
+          '& > :not(style)': {
+            m: 1,
+            maxWidth: 900,
+            maxHeight: 100,
+          },
+        }}>
+          <Typography variant="h2" gutterBottom>
+            {`${new Date().getDate()}/${new Date().getMonth() + 1}/${new Date().getFullYear()}`}
+          </Typography>
+        </Box>
+
+        <hr />
+        </div>
+        {/* <Box sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          textAlign: 'center',
+          align: 'center',
+          flexWrap: 'wrap',
+          '& > :not(style)': {
+            m: 1,
+            maxWidth: 900,
+            maxHeight: 100,
+          },
+        }}>
+          Hola
+        </Box> */}
+
+
+        <Box sx={{
+          display: 'inline-flex',
+          alignItems: 'flex-start',
+          justifyContent: 'left',
+          textAlign: 'center',
+          align: 'center',
+          flexWrap: 'wrap',
+          '& > :not(style)': {
+            m: 1,
+            width: 900,
+            maxHeight: 100,
+          },
+        }}>
+          <div id='imprimir'>
+          <Paper elevation={3}>
+            <TableContainer component={Paper}>
+              <Table sx={{ minWidth: 800 }} aria-label="spanning table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell align="center" colSpan={5}>
+                      Detalles de los productos
+                    </TableCell>
+                    <TableCell align="right">Total</TableCell>
                   </TableRow>
-                ))}
+                  <TableRow>
+                    <TableCell>Bodega</TableCell>
+                    <TableCell align="right">Estante</TableCell>
+                    <TableCell align="right">Total productos</TableCell>
+                    <TableCell align="center">Descripcion</TableCell>
+                    <TableCell align="right">Precio unitario</TableCell>
+                    <TableCell align="right">Suma</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {listOfProducts.map((row) => (
+                    <TableRow onClick={() => editProduct(row)} key={row.id} hover>
+                      <TableCell>{row.bodega}</TableCell>
+                      <TableCell align="right">{row.estante}</TableCell>
+                      <TableCell align="right">{row.total}</TableCell>
+                      <TableCell align="right">{row.name}</TableCell>
+                      <TableCell align="right">{row.price}</TableCell>
+                      <TableCell align="right">$ {ccyFormat(row.price * row.total)}</TableCell>
+                    </TableRow>
+                  ))}
 
-                <TableRow>
-                  <TableCell rowSpan={3} />
-                  <TableCell align='center' colSpan={4}>Subtotal</TableCell>
-                  <TableCell align="right">$ {ccyFormat(finalValue)}</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell align='center' colSpan={4}>Total</TableCell>
-                  <TableCell align="right">$ {ccyFormat(finalValue)}</TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Paper>
-      </Box>
+                  <TableRow>
+                    <TableCell rowSpan={3} />
+                    <TableCell align='center' colSpan={4}>Subtotal</TableCell>
+                    <TableCell align="right">$ {ccyFormat(finalValue)}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell align='center' colSpan={4}>Total</TableCell>
+                    <TableCell align="right">$ {ccyFormat(finalValue)}</TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Paper>
+          </div>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              textAlign: 'center',
+              align: 'center',
+              flexWrap: 'wrap',
+              '& > :not(style)': {
+                m: 1,
+                width: 500,
+                minHeight: 400,
+              },
+            }}
+          >
+            <Paper elevation={3}>
+              <Typography variant="h4" gutterBottom>
+                {`Formulario Activos de la empresa`}
+              </Typography>
 
 
 
+              <TextField fullWidth sx={{ marginRight: 2, marginTop: 5 }} name='totalSalidas' type="number" value={totalSalidas} onChange={handleInputChangeSalidas} id="outlined-basic" label="Total salidas" variant="outlined" />
+              <TextField fullWidth name='caja' sx={{ marginTop: 5 }} type="number" value={caja} onChange={handleInputChangeSalidas} id="outlined-basic" label="Caja" variant="outlined" />
+              <Button onClick={imprimir} sx={{ marginLeft: 2, marginTop: 5 }} disabled={!caja || !totalSalidas} variant="contained"><PrintIcon />Imprimir Ticket</Button>
+            </Paper>
+          </Box>
 
-
-
-
-
-
-      <form onSubmit={formAction} method="PUT">
-        <Dialog
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-
-        >
-          <DialogTitle id="alert-dialog-title">
-            {"Agregando un nuevo producto"}
-          </DialogTitle>
+        </Box>
+        {
+          totalSalidas && caja ?
+          <div id='tableentradas'>
           <Box sx={{
             display: 'flex',
-            flexDirection: 'column',
+            marginTop: 50,
             alignItems: 'center',
             justifyContent: 'center',
             textAlign: 'center',
@@ -299,29 +452,62 @@ export const TableProducts = () => {
             flexWrap: 'wrap',
             '& > :not(style)': {
               m: 1,
-              width: 200,
-              minHeight: 70,
+              maxWidth: 900,
+              maxHeight: 1000,
             },
-
-
           }}>
-
-            <TextField name='name' value={name} onChange={handleInputChange} id="outlined-basic" label="Nombre" variant="outlined" />
-            <TextField name='price' type="number" value={price} onChange={handleInputChange} id="outlined-basic" label="Precio" variant="outlined" />
-            <TextField name='bodega' type="number" value={bodega} onChange={handleInputChange} id="outlined-basic" label="Bodega" variant="outlined" />
-            <TextField name='estante' type="number" value={estante} onChange={handleInputChange} id="outlined-basic" label="Estante" variant="outlined" />
-
+            <TableRevenue {...props}/>
           </Box>
+        </div>
+          : ''
+        }
+        
 
-          <DialogActions>
-            <Button variant='outlined' color='error' onClick={handleClose}>Cancelar</Button>
-            <Button disabled={!name || !price || !bodega || !estante} type="submit" variant='outlined' autoFocus onClick={formAction}>
-              Agregar
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </form>
+        <form onSubmit={formAction} method="PUT">
+          <Dialog
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
 
-    </div>
+          >
+            <DialogTitle id="alert-dialog-title">
+              {"Agregando un nuevo producto"}
+            </DialogTitle>
+            <Box sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              textAlign: 'center',
+              align: 'center',
+              flexWrap: 'wrap',
+              '& > :not(style)': {
+                m: 1,
+                width: 200,
+                minHeight: 70,
+              },
+
+
+            }}>
+
+              <TextField name='name' value={name} onChange={handleInputChange} id="outlined-basic" label="Nombre" variant="outlined" />
+              <TextField name='price' type="number" value={price} onChange={handleInputChange} id="outlined-basic" label="Precio" variant="outlined" />
+              <TextField name='bodega' type="number" value={bodega} onChange={handleInputChange} id="outlined-basic" label="Bodega" variant="outlined" />
+              <TextField name='estante' type="number" value={estante} onChange={handleInputChange} id="outlined-basic" label="Estante" variant="outlined" />
+
+            </Box>
+
+            <DialogActions>
+              <Button variant='outlined' color='error' onClick={handleClose}>Cancelar</Button>
+              <Button disabled={!name || !price || !bodega || !estante} type="submit" variant='outlined' autoFocus onClick={formAction}>
+                Agregar
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </form>
+
+      
+    </>
   );
 }
