@@ -171,9 +171,9 @@ export const TableProducts = () => {
     ventana.document.write('<html><head><title style="text-align:center;align-content:center;">Inventario</title>');
     ventana.document.write('</head><body >');
     ventana.document.write('<div style="text-align: center;align-content: center;">');
-    //ventana.document.write('<img style="width: 155px;max-width: 155px;" src="/imagenmrcharro.jpeg" alt="Logotipo"/>'); 
+    ventana.document.write('<img style="width: 155px;max-width: 155px;" src="/despensajadis.jpeg" alt="Logotipo"/>'); 
 
-    ventana.document.write('<img style="width: 155px;max-width: 155px;" src="https://yt3.ggpht.com/-3BKTe8YFlbA/AAAAAAAAAAI/AAAAAAAAAAA/ad0jqQ4IkGE/s900-c-k-no-mo-rj-c0xffffff/photo.jpg" alt="Logotipo"/>'); 
+    //ventana.document.write('<img style="width: 155px;max-width: 155px;" src="https://yt3.ggpht.com/-3BKTe8YFlbA/AAAAAAAAAAI/AAAAAAAAAAA/ad0jqQ4IkGE/s900-c-k-no-mo-rj-c0xffffff/photo.jpg" alt="Logotipo"/>'); 
     ventana.document.write(nombre_fecha);
     ventana.document.write(data);
     ventana.document.write('<hr />');
@@ -311,7 +311,7 @@ let props = {
           },
         }}>
           <Typography variant="h2" gutterBottom>
-            {`Inventario de Despensa Jades 1`}
+            {`Inventario de Despensa Jadis 1`}
           </Typography>
         </Box>
         <Box sx={{
@@ -360,14 +360,14 @@ let props = {
           flexWrap: 'wrap',
           '& > :not(style)': {
             m: 1,
-            width: 900,
+            width: 650,
             maxHeight: 100,
           },
         }}>
           <div id='imprimir'>
           <Paper elevation={3}>
             <TableContainer component={Paper}>
-              <Table sx={{ minWidth: 800 }} aria-label="spanning table">
+              <Table sx={{ minWidth: 650 }} aria-label="spanning table">
                 <TableHead>
                   <TableRow>
                     <TableCell align="center" colSpan={5}>
@@ -419,9 +419,8 @@ let props = {
               align: 'center',
               flexWrap: 'wrap',
               '& > :not(style)': {
-                m: 1,
-                width: 500,
-                minHeight: 400,
+                width: 400,
+                maxHeight: 500,
               },
             }}
           >
@@ -432,9 +431,9 @@ let props = {
 
 
 
-              <TextField fullWidth sx={{ marginRight: 2, marginTop: 5 }} name='totalSalidas' type="number" value={totalSalidas} onChange={handleInputChangeSalidas} id="outlined-basic" label="Total salidas" variant="outlined" />
-              <TextField fullWidth name='caja' sx={{ marginTop: 5 }} type="number" value={caja} onChange={handleInputChangeSalidas} id="outlined-basic" label="Caja" variant="outlined" />
-              <Button onClick={imprimir} sx={{ marginLeft: 2, marginTop: 5 }} disabled={!caja || !totalSalidas} variant="contained"><PrintIcon />Imprimir Ticket</Button>
+              <TextField fullWidth sx={{ padding:2 }} name='totalSalidas' type="number" value={totalSalidas} onChange={handleInputChangeSalidas} id="outlined-basic" label="Total salidas" variant="outlined" />
+              <TextField fullWidth name='caja' sx={{ padding:2 }} type="number" value={caja} onChange={handleInputChangeSalidas} id="outlined-basic" label="Caja" variant="outlined" />
+              <Button onClick={imprimir} sx={{ padding:2 }} disabled={!caja || !totalSalidas} variant="contained"><PrintIcon />Imprimir Ticket</Button>
             </Paper>
           </Box>
 
@@ -444,15 +443,15 @@ let props = {
           <div id='tableentradas'>
           <Box sx={{
             display: 'flex',
-            marginTop: 50,
+            marginTop: 30,
+            marginLeft: 90,
             alignItems: 'center',
             justifyContent: 'center',
             textAlign: 'center',
             align: 'center',
             flexWrap: 'wrap',
             '& > :not(style)': {
-              m: 1,
-              maxWidth: 900,
+              maxWidth: 500,
               maxHeight: 1000,
             },
           }}>

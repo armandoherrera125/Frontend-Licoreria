@@ -43,7 +43,7 @@ export const TableRevenue = ({totalSalidas,caja,finalValue}) =>{
     const saldo = Number(caja) + Number(finalValue);
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 800 }} aria-label="spanning table">
+      <Table sx={{ minWidth: 500 }} aria-label="spanning table">
         <TableHead>
           <TableRow>
             <TableCell align="center" colSpan={3}>

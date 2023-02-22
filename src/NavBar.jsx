@@ -103,7 +103,7 @@ export const NavBar = () => {
                 textDecoration: 'none',
               }}
             >
-              Despensa Jades 1
+              Despensa Jadis 1
             </Typography>
 
             <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -159,7 +159,7 @@ export const NavBar = () => {
                 textDecoration: 'none',
               }}
             >
-              Despensa Jades 1
+              Despensa Jadis 1
             </Typography>
 
 
