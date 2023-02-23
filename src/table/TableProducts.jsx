@@ -471,7 +471,7 @@ let props = {
 
           >
             <DialogTitle id="alert-dialog-title">
-              {"Agregando un nuevo producto"}
+              {"Editando el producto seleccionado"}
             </DialogTitle>
             <Box sx={{
               display: 'flex',
@@ -500,7 +500,7 @@ let props = {
             <DialogActions>
               <Button variant='outlined' color='error' onClick={handleClose}>Cancelar</Button>
               <Button disabled={!name || !price || !bodega || !estante} type="submit" variant='outlined' autoFocus onClick={formAction}>
-                Agregar
+                Editar
               </Button>
             </DialogActions>
           </Dialog>

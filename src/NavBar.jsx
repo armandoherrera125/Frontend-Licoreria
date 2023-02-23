@@ -88,7 +88,7 @@ export const NavBar = () => {
               style={({ isActive }) => {
                 return {
                   display: { xs: 'none', md: 'block' },
-                  color: isActive ? "red" : "",
+                  color: isActive ? "#90CAF9" : "",
                 };
               }}
 
@@ -103,7 +103,7 @@ export const NavBar = () => {
                 textDecoration: 'none',
               }}
             >
-              Despensa Jadis 1
+              DESPENSA JADIS 1
             </Typography>
 
             <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -159,7 +159,7 @@ export const NavBar = () => {
                 textDecoration: 'none',
               }}
             >
-              Despensa Jadis 1
+              DESPENSA JADIS 1
             </Typography>
 
 
