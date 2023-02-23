@@ -193,15 +193,15 @@ export const TableProducts = () => {
     ventana.document.write('</tr>');
     ventana.document.write('<tr>');
     ventana.document.write('<td style="width: 406.453px;">Total existencia en mercaderia:</td>');
-    ventana.document.write(`<td style="width: 200.547px;">${finalValue} =</td>`);
+    ventana.document.write(`<td style="width: 200.547px;">${ccyFormat(finalValue)} =</td>`);
     ventana.document.write('</tr>');
     ventana.document.write('<tr>');
     ventana.document.write('<td style="width: 406.453px;">Total salidas y existencia:</td>');
-    ventana.document.write(`<td style="width: 200.547px;">${totalSumaSalidas}</td>`);
+    ventana.document.write(`<td style="width: 200.547px;">${ccyFormat(totalSumaSalidas)}</td>`);
     ventana.document.write('</tr>');
     ventana.document.write('<tr>');
     ventana.document.write('<td style="width: 406.453px;">Saldo:</td>');
-    ventana.document.write(`<td style="width: 200.547px;">${saldo}</td>`);
+    ventana.document.write(`<td style="width: 200.547px;">${ccyFormat(saldo)}</td>`);
     ventana.document.write('</tr>');
     ventana.document.write('</tbody>');
     ventana.document.write('</table>');
