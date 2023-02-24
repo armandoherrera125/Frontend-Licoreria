@@ -10,7 +10,7 @@ import Paper from '@mui/material/Paper';
 const TAX_RATE = 0.07;
 
 function ccyFormat(num) {
-    console.log(num);
+    //console.log(num);
   return `${num.toFixed(2)}`;
 }
 
@@ -67,7 +67,7 @@ export const TableRevenue = ({totalSalidas,caja,finalValue}) =>{
         </TableRow>
         <TableRow>
             <TableCell>Total existencia en mercaderia:</TableCell>
-            <TableCell colSpan={3} align="right">${finalValue}</TableCell>
+            <TableCell colSpan={3} align="right">${ccyFormat(finalValue)}</TableCell>
         </TableRow>
 
           <TableRow>
