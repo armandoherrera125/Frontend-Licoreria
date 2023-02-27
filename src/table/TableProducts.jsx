@@ -108,10 +108,11 @@ export const TableProducts = () => {
     });
   }
   const [salidas, setsalidas] = useState({
+    totalEntradas:0,
     totalSalidas: 0,
     caja: 0
   });
-  const { totalSalidas, caja } = salidas;
+  const {totalEntradas, totalSalidas, caja } = salidas;
 
   const handleInputChangeSalidas = ({ target }) => {
     setsalidas({
@@ -225,6 +226,7 @@ export const TableProducts = () => {
       'success'
     )
     setsalidas({
+      totalEntradas: 0,
       totalSalidas: 0,
       caja: 0
     })
@@ -243,6 +245,7 @@ export const TableProducts = () => {
 
 
   let props = {
+    totalEntradas,
     totalSalidas,
     caja,
     finalValue
@@ -333,7 +336,7 @@ export const TableProducts = () => {
                   flexWrap: 'wrap',
                   '& > :not(style)': {
                     width: 500,
-                    minHeight: 420,
+                    minHeight: 485,
                   },
                 }}
               >
@@ -343,10 +346,10 @@ export const TableProducts = () => {
                   </Typography>
 
 
-
+                  <TextField fullWidth sx={{ padding: 2 }} name='totalEntradas' type="number" value={totalEntradas} onChange={handleInputChangeSalidas} id="outlined-basic" label="Total entradas" variant="outlined" />
                   <TextField fullWidth sx={{ padding: 2 }} name='totalSalidas' type="number" value={totalSalidas} onChange={handleInputChangeSalidas} id="outlined-basic" label="Total salidas" variant="outlined" />
-                  <TextField fullWidth name='caja' sx={{ padding: 2 }} type="number" value={caja} onChange={handleInputChangeSalidas} id="outlined-basic" label="Caja" variant="outlined" />
-                  <Button onClick={imprimir} sx={{ padding: 2 }} disabled={!caja || !totalSalidas} variant="contained"><PrintIcon />Imprimir Ticket</Button>
+                  <TextField fullWidth name='caja' sx={{ padding: 2 }} type="number" value={caja} onChange={handleInputChangeSalidas} id="outlined-basic" label="Total caja" variant="outlined" />
+                  <Button onClick={imprimir} sx={{ padding: 2 }} disabled={!totalEntradas || !caja || !totalSalidas} variant="contained"><PrintIcon />Imprimir Ticket</Button>
                 </Paper>
               </Box>
             </Paper>
@@ -356,7 +359,7 @@ export const TableProducts = () => {
 
 
         {
-          totalSalidas && caja ?
+          totalEntradas&& totalSalidas && caja ?
             <Grid item xs={6} sm={6} md={6} lg={6} xl={6}>
               <Box sx={{
                 display: 'flex',
@@ -421,7 +424,7 @@ export const TableProducts = () => {
                     flexWrap: 'wrap',
                     '& > :not(style)': {
                       minWidth: 500,
-                      minHeight: 420,
+                      minHeight: 485,
                     },
                   }}
                 >

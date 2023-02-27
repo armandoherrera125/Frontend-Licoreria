@@ -37,10 +37,13 @@ const invoiceSubtotal = subtotal(rows);
 const invoiceTaxes = TAX_RATE * invoiceSubtotal;
 const invoiceTotal = invoiceTaxes + invoiceSubtotal;
 
-export const TableRevenue = ({totalSalidas,caja,finalValue}) =>{
+export const TableRevenue = ({totalEntradas,totalSalidas,caja,finalValue}) =>{
     let mesActual = new Intl.DateTimeFormat('es-ES', { month: 'long'}).format(new Date());
     const totalSumaSalidas = Number(totalSalidas) + Number(caja) + Number(finalValue);
     const saldo = Number(caja) + Number(finalValue);
+    let suma3 = Number(totalEntradas) + Number(caja) + Number(finalValue);
+    suma3 = ccyFormat(suma3);
+    const entradaMensual = Number(suma3) - Number(totalSalidas);
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 500 }} aria-label="spanning table">
@@ -58,7 +61,11 @@ export const TableRevenue = ({totalSalidas,caja,finalValue}) =>{
         </TableHead>
         <TableBody>
         <TableRow>
-            <TableCell>Total salidas:</TableCell>
+            <TableCell>Total entradas de mercaderia:</TableCell>
+            <TableCell colSpan={3} align="right">${totalEntradas}</TableCell>
+        </TableRow>
+        <TableRow>
+            <TableCell>Total salidas de mercaderia:</TableCell>
             <TableCell colSpan={3} align="right">${totalSalidas}</TableCell>
         </TableRow>
         <TableRow>
@@ -78,6 +85,10 @@ export const TableRevenue = ({totalSalidas,caja,finalValue}) =>{
           <TableRow>
             <TableCell colSpan={2}>Saldo actual:</TableCell>
             <TableCell align="right">${ccyFormat(saldo)}</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell colSpan={2}>Entrada mensual:</TableCell>
+            <TableCell align="right">${ccyFormat(entradaMensual)}</TableCell>
           </TableRow>
         </TableBody>
       </Table>
